@@ -18,4 +18,4 @@ function solution(answers) {
 }
 // 1. 각 수포자의 반복 패턴 배열과 점수(scores)를 만든다
 // 2. answers를 순회하면서 문제번호 % 패턴길이로 각 수포자 답을 비교해 점수를 올린다
-// 3. scores에서 최대 점수를 구하고, 최대점수와 같은 수포자 번호를 answer에 담아 return
+// 3. scores에서 최대 점수를 구하고, 최대점수와 같은 수포자 번호를 answer에 담아 return 
