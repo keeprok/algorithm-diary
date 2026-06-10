@@ -1,0 +1,9 @@
+#!/bin/sh
+# Solo 커밋 시 README 자동 갱신
+if git log -1 --pretty=%B | grep -q '\[solo\]'; then
+  python3 scripts/update-readme.py
+  if ! git diff --quiet README.md; then
+    git add README.md
+    git commit -m "docs: README Solo 목록 갱신" --no-verify
+  fi
+fi
