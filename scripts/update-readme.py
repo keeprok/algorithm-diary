@@ -31,6 +31,12 @@ CONCEPT_MAP = {
     "힙（Heap）": "힙",
 }
 
+TITLE_CONCEPT_MAP = {
+    "삼총사": "DFS/BFS",
+    "소수 만들기": "DFS/BFS",
+    "전력망을 둘로 나누기": "DFS/BFS",
+}
+
 CONCEPT_ORDER = [
     "해시",
     "스택/큐",
@@ -86,6 +92,10 @@ def concept_of(category: str) -> str:
     return CONCEPT_MAP.get(category, "기타")
 
 
+def concept_for_problem(title: str, category: str) -> str:
+    return TITLE_CONCEPT_MAP.get(title, concept_of(category))
+
+
 def parse_problems(solo_titles: set[str]) -> list[dict]:
     problems: list[dict] = []
     seen: set[str] = set()
@@ -109,7 +119,7 @@ def parse_problems(solo_titles: set[str]) -> list[dict]:
                 "level": level,
                 "id": problem_id,
                 "category": category,
-                "concept": concept_of(category),
+                "concept": concept_for_problem(title, category),
             }
         )
 
