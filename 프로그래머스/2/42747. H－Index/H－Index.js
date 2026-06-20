@@ -1,21 +1,24 @@
+// 1. citations를 내림차순으로 정렬한다
+// 2. 앞에서부터 보면서 i + 1편의 논문이 현재 인용 수 이상인지 확인한다
+// 3. citations[i] >= i + 1 이면 H-Index 후보가 된다
+// 4. 조건을 만족할 때마다 answer = i + 1로 갱신한다
+// 5. 조건을 만족하지 못하는 순간부터는 더 커질 수 없으므로 반복 종료
+// 6. answer return
+
 function solution(citations) {
-  // 1. 내림차순 정렬
   citations.sort((a, b) => b - a);
 
-  let h = 0;
+  let answer = 0;
 
-  // 2. 왼쪽부터 보면서 조건 확인
   for (let i = 0; i < citations.length; i++) {
-    const paperCount = i + 1;      // 지금까지 본 논문 수
-    const citation = citations[i]; // 현재 논문의 인용 수
+    const paperCount = i + 1;
 
-    if (citation >= paperCount) {
-      h = paperCount;  // 조건을 만족하면 h 갱신
+    if (citations[i] >= paperCount) {
+      answer = paperCount;
     } else {
-      // 더 이상 증가 못함. 뒤로 갈수록 인용수는 더 작으니까
       break;
     }
   }
 
-  return h;
+  return answer;
 }
