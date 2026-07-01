@@ -51,6 +51,7 @@ TITLE_CONCEPT_MAP = {
     "삼총사": "DFS/BFS",
     "소수 만들기": "DFS/BFS",
     "전력망을 둘로 나누기": "DFS/BFS",
+    "마법의 엘리베이터": "탐욕법",
 }
 
 CONCEPT_ORDER = [
