@@ -1,42 +1,41 @@
 function solution(maps) {
-  const rows = maps.length;
-  const cols = maps[0].length;
-  const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-  const result = [];
-
+  const n = maps.length;
+  const m = maps[0].length;
+  const grid = maps.map(row => row.split(''));
+  const visited = Array.from({ length: n }, () => Array(m).fill(false));
   const dx = [-1, 1, 0, 0];
   const dy = [0, 0, -1, 1];
+  const answer = [];
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (maps[r][c] !== 'X' && !visited[r][c]) {
-        // 새 섬 발견 → BFS로 연결된 육지 전체 탐색
-        let food = 0;
-        const queue = [[r, c]];
-        visited[r][c] = true;
+  // 각 칸에서 시작해 아직 방문 안 한 육지면 BFS로 섬 전체 탐색
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (grid[i][j] === 'X' || visited[i][j]) continue;
 
-        while (queue.length) {
-          const [cr, cc] = queue.shift();
-          food += Number(maps[cr][cc]); // 칸의 식량 누적
+      let sum = 0;
+      const queue = [[i, j]];
+      visited[i][j] = true;
 
-          for (let d = 0; d < 4; d++) {
-            const nr = cr + dx[d];
-            const nc = cc + dy[d];
-            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols
-                && !visited[nr][nc] && maps[nr][nc] !== 'X') {
-              visited[nr][nc] = true;
-              queue.push([nr, nc]);
-            }
-          }
+      while (queue.length) {
+        const [r, c] = queue.shift();
+        sum += Number(grid[r][c]); // 식량 누적
+
+        for (let d = 0; d < 4; d++) {
+          const nr = r + dx[d];
+          const nc = c + dy[d];
+          if (nr < 0 || nr >= n || nc < 0 || nc >= m) continue;
+          if (visited[nr][nc] || grid[nr][nc] === 'X') continue;
+          visited[nr][nc] = true;
+          queue.push([nr, nc]);
         }
-        result.push(food);
       }
+      answer.push(sum);
     }
   }
 
-  if (result.length === 0) return [-1];
-  return result.sort((a, b) => a - b);
+  answer.sort((a, b) => a - b); // 오름차순 정렬
+  return answer.length ? answer : [-1];
 }
-// 1. 'X'가 아닌 칸에서 BFS 시작 → 상하좌우 연결된 육지 전체를 하나의 섬으로 탐색
-// 2. 각 섬의 숫자(식량) 합산 → 결과 배열에 추가
-// 3. 오름차순 정렬 후 반환, 섬이 없으면 [-1]
+// 1. 'X'(바다)가 아닌 칸을 시작점으로 BFS → 연결된 섬 하나를 통째로 탐색
+// 2. 섬의 모든 칸 식량(숫자)을 합산해 저장, 방문 처리로 중복 방지
+// 3. 섬별 식량 합을 오름차순 정렬, 섬이 없으면 [-1] 반환
